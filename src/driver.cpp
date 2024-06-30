@@ -13,10 +13,10 @@ public:
     HandleInputPublisher(const std::string &device_path)
         : Node("handle_input_publisher"), device_path_(device_path)
     {
-        handle_publisher_ = this->create_publisher<std_msgs::msg::Float32>("handle_position", 10);
-        throttle_publisher_ = this->create_publisher<std_msgs::msg::Float32>("throttle_position", 10);
-        brake_publisher_ = this->create_publisher<std_msgs::msg::Float32>("brake_position", 10);
-        gear_publisher_ = this->create_publisher<std_msgs::msg::Int32>("gear_position", 10);
+        handle_publisher_ = this->create_publisher<std_msgs::msg::Float32>("handle_position", 1);
+        throttle_publisher_ = this->create_publisher<std_msgs::msg::Float32>("throttle_position", 1);
+        brake_publisher_ = this->create_publisher<std_msgs::msg::Float32>("brake_position", 1);
+        gear_publisher_ = this->create_publisher<std_msgs::msg::Int32>("gear_position", 1);
         
         handle_position_ = 0.0f;
         throttle_position_ = 0.0f; // 初期状態で最大
