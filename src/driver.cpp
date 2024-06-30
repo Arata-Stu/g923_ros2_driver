@@ -10,23 +10,26 @@
 class HandleInputPublisher : public rclcpp::Node
 {
 public:
-    HandleInputPublisher(const std::string &device_path)
-        : Node("handle_input_publisher"), device_path_(device_path)
+    HandleInputPublisher()
+        : Node("g923_driver_node")
     {
+        this->declare_parameter<std::string>("input_path", "");
+        this->get_parameter("input_path", device_path_);
+
         handle_publisher_ = this->create_publisher<std_msgs::msg::Float32>("handle_position", 1);
         throttle_publisher_ = this->create_publisher<std_msgs::msg::Float32>("throttle_position", 1);
         brake_publisher_ = this->create_publisher<std_msgs::msg::Float32>("brake_position", 1);
         gear_publisher_ = this->create_publisher<std_msgs::msg::Int32>("gear_position", 1);
         
         handle_position_ = 0.0f;
-        throttle_position_ = 0.0f; // 初期状態で最大
-        brake_position_ = 0.0f; // 初期状態で最大
-        gear_position_ = 0; // 初期状態でニュートラル
+        throttle_position_ = 0.0f;
+        brake_position_ = 0.0f;
+        gear_position_ = 0;
         
         open_device();
         
         timer_ = this->create_wall_timer(
-            std::chrono::milliseconds(100),  // 100msごとに実行
+            std::chrono::milliseconds(100),  
             std::bind(&HandleInputPublisher::publish_latest_state, this)
         );
     }
@@ -97,20 +100,20 @@ private:
 
     int determine_gear_position(int code, int value)
     {
-        if (value == 1) // キーが押された場合
+        if (value == 1)
         {
             switch (code)
             {
-                case 300: return 1; // 仮のギア位置1
-                case 301: return 2; // 仮のギア位置2
-                case 302: return 3; // 仮のギア位置3
-                case 303: return 4; // 仮のギア位置4
-                case 704: return 5; // 仮のギア位置5
-                case 705: return 6; // 仮のギア位置6
-                default: return 0; // ニュートラル
+                case 300: return 1;
+                case 301: return 2;
+                case 302: return 3;
+                case 303: return 4;
+                case 704: return 5;
+                case 705: return 6;
+                default: return 0;
             }
         }
-        return gear_position_; // 変更なし
+        return gear_position_;
     }
 
     void publish_latest_state()
@@ -138,16 +141,8 @@ private:
 
 int main(int argc, char *argv[])
 {
-    if (argc < 2)
-    {
-        std::cerr << "Usage: " << argv[0] << " <device_path>" << std::endl;
-        return 1;
-    }
-
-    std::string device_path = argv[1];
-
     rclcpp::init(argc, argv);
-    auto node = std::make_shared<HandleInputPublisher>(device_path);
+    auto node = std::make_shared<HandleInputPublisher>();
     std::thread([&node]() { node->read_loop(); }).detach();
     rclcpp::spin(node);
     rclcpp::shutdown();

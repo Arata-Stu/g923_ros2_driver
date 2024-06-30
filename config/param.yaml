@@ -1,0 +1,3 @@
+g923_driver_node:
+  ros__parameters:
+    input_path:  '/dev/input/event6'
