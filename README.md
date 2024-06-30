@@ -2,6 +2,13 @@
 G923をROS2対応させることを目的としたパッケージです。
 ubuntu22.04で動作を確認しています。
 
+## topic
+| 入力 | topic | 値 
+| ---- | ---- | --- 
+| ハンドル | /handle_position | float32 -1~1
+| アクセルペダル | /throttle_position | float32 0~1
+| ブレーキペダル | /brake_position | float32 0~1
+| シフトレバー | /gear_position | int32 0~6
 ## 事前準備
 1. oversteerのbuild
 ```shell
