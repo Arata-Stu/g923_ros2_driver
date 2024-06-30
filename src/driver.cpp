@@ -54,11 +54,11 @@ public:
                     {
                         handle_position_ = normalize_handle(ev.value);
                     }
-                    else if (ev.code == ABS_Y)
+                    else if (ev.code == ABS_X)
                     {
                         throttle_position_ = normalize_pedal(ev.value);
                     }
-                    else if (ev.code == ABS_Z)
+                    else if (ev.code == ABS_Y)
                     {
                         brake_position_ = normalize_pedal(ev.value);
                     }
