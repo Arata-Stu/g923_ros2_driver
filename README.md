@@ -27,7 +27,7 @@ sudo reboot
 2. new-lg4ffのinstall
 ```shell
 sudo apt-get install dkms
-sudo git clone https://github.com/[project-repo] /usr/src/new-lg4ff
+sudo git clone https://github.com/berarma/new-lg4ff.git /usr/src/new-lg4ff
 sudo dkms install /usr/src/new-lg4ff
 sudo update-initramfs -u
 ```
